@@ -1,4 +1,4 @@
-def find(parents, node):
+def find(parents, node): 
     # find the representative of the set to which 'node' belongs
     # helpful for cycle prevention
     if parents[node] < 0: #-1 from set
@@ -15,7 +15,7 @@ def unite(parents, a, b):
         return
     if parents[a] > parents[b]:
         a, b = b, a
-    parents[a] += parents[b]
+    parents[a] += parents[b] # not really necessary but indicates how many point to it
     parents[b] = a
 
 class VillageDistance: # edge object
@@ -40,15 +40,18 @@ def main():
 
     # initialize disjoint set data structure for villages. Each value starts with -1 value
     parents = [-1] * num_villages
-
+    runs = 0
     # Process edges in sorted order and output the minimum spanning tree
     for edge in distances:
+        if runs==num_villages-1:
+            break
         n1 = find(parents, edge.village1)
         n2 = find(parents, edge.village2)
         if n1 != n2:
-            # Output the edge of the minimum spanning tree
+            # minimum spanning tree edges print here
             #+1 necessary because index starts at 0
             print(f"{edge.village1 + 1} {edge.village2 + 1}")
+            runs+=1
             unite(parents, n1, n2)
 
 if __name__ == "__main__":
